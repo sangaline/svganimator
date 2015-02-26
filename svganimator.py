@@ -33,7 +33,7 @@ if __name__ == '__main__':
     #Setup and parse the arguments
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('output_file', help='The name of the SVG file that the animation will be written to.',
-                        type=argparse.FileType('w'))
+                        type=argparse.FileType('wb'))
     parser.add_argument('-b', '--basic', help='Basic mode. This is more likely to work but will have larger file sizes and ' +
                         'transitions will only be fades not interpolations.', action='store_true')
     parser.add_argument('-s', '--static', help='The number of seconds to statically display each svg.',
