@@ -6,7 +6,9 @@ If you run it with the --basic option it will group each input image into a sepa
 Without the --basic option, svganimator will attempt to find matching elements between frames an animate between them. This allows for smooth transitions between frames and also dramatically reduces the file sizes. This is relatively fragile at the moment but when it does work it can produce some pretty cool results. It works best in scenarios where you're using SVG files that are likely very similar in structure, which is often the case when using an external library that programatically generates the images.
 
 # gallery
-Here are a couple of simple examples that were generated from SVG images constructed using matplotlib.
+Here are a couple of simple examples that were generated from SVG images constructed using matplotlib. 
+
+Note that you have to wait a very long time because the animations are quite. Just kidding, github blocks SVG due to XSS concerns so you need to click through each image to see the animation.
 
 <a href="http://nuclear.ucdavis.edu/~sangaline/github/svganimator/morphing_histograms.svg">
 <img src="http://nuclear.ucdavis.edu/~sangaline/github/svganimator/morphing_histograms.png" />
