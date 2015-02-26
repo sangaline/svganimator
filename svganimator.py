@@ -25,6 +25,22 @@ class SvgAnimator(object):
             self.transition_times.append(self.precision_string.format(second/self.total_time))
         self.duration = self.precision_string.format(self.total_time) + 's'
 
+    def _basic_animate(self, result, frames):
+        attributes = { 'attributeName' : 'opacity', 'attributeType' : 'CSS', 'begin' : '0s',
+                      'dur' : self.duration, 'repeatCount' : self.repeatCount}
+        for i, frame in enumerate(frames):
+            g = ET.SubElement(result, 'g', { 'style' : 'opacity:' + ('1' if i == 0 else '0') + ';'})
+            if i == 0 or i == len(frames)-1:
+                attributes['values'] = '1;1;0;0;1' if i == 0 else '0;0;1;1;0'
+                indices = [0, 1, 2, -2, -1] if i == 0 else [0, -4, -3, -2, -1]
+                attributes['keyTimes'] = '{:s};{:s};{:s};{:s};{:s}'.format(*[self.transition_times[index] for index in indices])
+            else:
+                attributes['values'] = '0;0;1;1;0;0'
+                indices = [0, i*2-1, i*2, i*2+1, i*2+2, -1]
+                attributes['keyTimes'] = '{:s};{:s};{:s};{:s};{:s};{:s}'.format(*[self.transition_times[index] for index in indices])
+            ET.SubElement(g, 'animate', attributes)
+            g.extend(frame.getchildren())
+
     def animate(self, output, inputs, close=True):
         roots = []
         for input in inputs:
@@ -36,6 +52,8 @@ class SvgAnimator(object):
         self._generate_timings(len(roots))
 
         result = ET.Element(roots[0].tag)
+        if self.basic:
+            self._basic_animate(result, roots)
 
         tree = ET.ElementTree(result)
         tree.write(output)
