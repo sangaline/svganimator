@@ -52,3 +52,13 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# vim files
+*.swp
+*.swo
+*~
+
+# Image files
+*.svg
+*.png
+*.gif
