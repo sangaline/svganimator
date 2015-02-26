@@ -109,6 +109,52 @@ class SvgAnimator(object):
             first_frame_child = frames[0].getchildren()[child_index]
             result_child = ET.SubElement(result, first_frame_child.tag, first_frame_child.attrib)
 
+            keys = result_child.keys()
+            for badkey in blacklist:
+                if 'badkey' in keys:
+                    keys.remove('badkey')
+            values = [result_child.get(key) for key in keys]
+            styles, style_values = extract_style(result_child)
+            attributes = { 'repeatCount' : self.repeatCount, 'begin' : '0s', 'dur' : self.duration }
+            number_of_keys = len(keys)
+            for attribute_index in range(number_of_keys + len(styles)):
+                animated = False
+                attributes['keyTimes'] = '0'
+                if attribute_index < number_of_keys:
+                    attributes['attributeName'] = keys[attribute_index]
+                    attributes['attributeType'] = 'XML'
+                    initial_value = values[attribute_index]
+                    current_value = initial_value
+                    attributes['values'] = current_value
+                    for i, child in enumerate(current_children):
+                        if attributes['attributeName'] in child.keys():
+                            new_value = child.get(attributes['attributeName'])
+                            if current_value != new_value:
+                                animated = True
+                                attributes['values'] += ';' + current_value + ';' + new_value
+                                attributes['keyTimes'] += ';' + self.transition_times[i*2-1] + ';' + self.transition_times[i*2]
+                                current_value = new_value
+                else:
+                    attribute_index -= number_of_keys
+                    attributes['attributeName'] = styles[attribute_index]
+                    attributes['attributeType'] = 'CSS'
+                    initial_value = style_values[attribute_index]
+                    current_value = initial_value
+                    attributes['values'] = current_value
+                    for i, child in enumerate(current_children):
+                        child_styles, child_values = extract_style(child)
+                        if attributes['attributeName'] in child_styles:
+                            new_value = child_values[child_styles.index(attributes['attributeName'])]
+                            if current_value != new_value:
+                                animated = True
+                                attributes['values'] += ';' + current_value + ';' + new_value
+                                attributes['keyTimes'] += ';' + self.transition_times[i*2-1] + ';' + self.transition_times[i*2]
+                                current_value = new_value
+                if animated:
+                    attributes['values'] += ';' + current_value + ';' + initial_value
+                    attributes['keyTimes'] += ';' + self.transition_times[-2] + ';1'
+                    ET.SubElement(result_child, 'animate', attributes)
+
             #apply recursively down the tree
             self._experimental_animate(result_child, current_children)
             child_index += 1
