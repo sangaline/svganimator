@@ -54,6 +54,7 @@ class SvgAnimator(object):
         self._generate_timings(len(roots))
 
         result = ET.Element(roots[0].tag)
+        result.attrib = roots[0].attrib
         result.append(ET.Comment(comment_string))
         if self.basic:
             self._basic_animate(result, roots)
