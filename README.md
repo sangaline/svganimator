@@ -15,6 +15,9 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
+  -b, --basic           Basic mode. This is more likely to work but will have
+                        larger file sizes and transitions will only be fades
+                        not interpolations. (default: False)
   -s STATIC_DURATION, --static STATIC_DURATION
                         The number of seconds to statically display each svg.
                         (default: 1.0)
