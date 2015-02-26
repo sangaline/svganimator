@@ -14,7 +14,7 @@ class SvgAnimator(object):
         self.precision = precision
         self.basic = basic
 
-    def Animate(self, output, inputs, close=True):
+    def animate(self, output, inputs, close=True):
         roots = []
         for input in inputs:
             tree = ET.ElementTree(file=input)
@@ -56,4 +56,4 @@ if __name__ == '__main__':
 
     animator = SvgAnimator(static=args.static, transition=args.transition, loop=args.loop,
                            precision=args.precision, basic=args.basic)
-    animator.Animate(output=args.output_file, inputs=args.input_file, close=True)
+    animator.animate(output=args.output_file, inputs=args.input_file, close=True)
