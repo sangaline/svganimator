@@ -10,18 +10,20 @@ class SvgAnimator(object):
     def __init__(self, static, transition, loop, precision, basic):
         self.static = static
         self.transition = transition
-        self.loop = loop
+        self.repeatCount = str(loop) if loop > 0 else 'indefinite'
         self.precision = precision
+        self.precision_string = '{:.' + str(precision) + 'g}'
         self.basic = basic
 
     def _generate_timings(self, number_of_frames):
         self.total_time = round((self.static+self.transition)*number_of_frames, self.precision)
-        self.transition_times = [0.0]
+        self.transition_times = ['0']
         for i in range(number_of_frames):
             first = (self.static+self.transition)*i + self.static
             second = first + self.transition
-            self.transition_times.append(round(first/self.total_time, self.precision))
-            self.transition_times.append(round(second/self.total_time, self.precision))
+            self.transition_times.append(self.precision_string.format(first/self.total_time))
+            self.transition_times.append(self.precision_string.format(second/self.total_time))
+        self.duration = self.precision_string.format(self.total_time) + 's'
 
     def animate(self, output, inputs, close=True):
         roots = []
