@@ -180,7 +180,7 @@ class SvgAnimator(object):
         tree = ET.ElementTree(result)
         namespace = result.tag.split('}')[0][1:]
         ET.register_namespace('', namespace)
-        tree.write(output)
+        tree.write(output, xml_declaration=True)
         if close and isinstance(output, IOBase):
             output.close()
 
