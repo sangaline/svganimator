@@ -2,6 +2,32 @@
 
 import argparse
 import sys
+from copy import deepcopy
+import xml.etree.ElementTree as ET
+from io import IOBase
+
+class SvgAnimator(object):
+    def __init__(self, static, transition, loop, precision, basic):
+        self.static = static
+        self.transition = transition
+        self.loop = loop
+        self.precision = precision
+        self.basic = basic
+
+    def Animate(self, output, inputs, close=True):
+        roots = []
+        for input in inputs:
+            tree = ET.ElementTree(file=input)
+            roots.append(tree.getroot())
+            if close and isinstance(input, IOBase):
+                input.close()
+            assert roots[-1].tag.split('}')[1] == 'svg'
+        result = ET.Element(roots[0].tag)
+
+        tree = ET.ElementTree(result)
+        tree.write(output)
+        if close and isinstance(output, IOBase):
+            output.close()
 
 if __name__ == '__main__':
     #Setup and parse the arguments
@@ -27,3 +53,7 @@ if __name__ == '__main__':
         args.output_file.close()
         args.input_file[0].close()
         sys.exit()
+
+    animator = SvgAnimator(static=args.static, transition=args.transition, loop=args.loop,
+                           precision=args.precision, basic=args.basic)
+    animator.Animate(output=args.output_file, inputs=args.input_file, close=True)
