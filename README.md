@@ -2,6 +2,7 @@
 The application svganinmator attempts to build a single animated svg out of a sequence of distinct static svg files.
 
 # usage
+```
 usage: svganimator.py [-h] [-s STATIC_DURATION] [-t TRANSITION_DURATION]
                       [-l NUMBER_OF_LOOPS] [-p PRECISION]
                       output_file input_file [input_file ...]
@@ -26,4 +27,4 @@ optional arguments:
   -p PRECISION, --precision PRECISION
                         The precision for animation timings. Can make a
                         significant difference in file sizes. (default: 6)
-
+```
