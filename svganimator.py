@@ -56,6 +56,8 @@ class SvgAnimator(object):
             self._basic_animate(result, roots)
 
         tree = ET.ElementTree(result)
+        namespace = result.tag.split('}')[0][1:]
+        ET.register_namespace('', namespace)
         tree.write(output)
         if close and isinstance(output, IOBase):
             output.close()
