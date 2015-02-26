@@ -87,15 +87,22 @@ class SvgAnimator(object):
             current_children = []
             #the node with the most children is considered most 'complete'
             best_frame = frame_children[child_lengths.index(max_length)]
+            force_opacity = False
             for i, frame in enumerate(frames):
                 #this is a very shallow comparison but works well in some scenarios
                 if child_index >= child_lengths[i] or frame[child_index].tag != best_frame[child_index].tag:
-                    #also note that this is by reference
-                    frame.insert(child_index, best_frame[child_index])
-                    frame_children[i].insert(child_index, best_frame[child_index])
+                    copied_node = ET.Element(best_frame[child_index].tag, best_frame[child_index].attrib)
+                    set_style_attribute(copied_node, 'opacity', '0')
+                    force_opacity = True
+                    frame.insert(child_index, copied_node)
+                    frame_children[i].insert(child_index, copied_node)
                     child_lengths[i] += 1
                     max_length = max((child_lengths[i], max_length))
                 current_children.append(frame_children[i][child_index])
+            if force_opacity:
+                for child in current_children:
+                    if get_style_attribute(child, 'opacity') == None:
+                        set_style_attribute(child, 'opacity', '1')
 
             first_frame_child = frames[0].getchildren()[child_index]
             result_child = ET.SubElement(result, first_frame_child.tag, first_frame_child.attrib)
