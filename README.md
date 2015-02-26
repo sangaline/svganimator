@@ -8,7 +8,7 @@ Without the --basic option, svganimator will attempt to find matching elements b
 # gallery
 Here are a couple of simple examples that were generated from SVG images constructed using matplotlib. 
 
-Note that you have to wait a very long time because the animations are quite. Just kidding, github blocks SVG due to XSS concerns so you need to click through each image to see the animation.
+Note that you have to wait a very long time to see them in action because the animations are quite slow. Just kidding, github blocks SVG due to XSS concerns so you need to click through each image to see the animation.
 
 <a href="http://nuclear.ucdavis.edu/~sangaline/github/svganimator/morphing_histograms.svg">
 <img src="http://nuclear.ucdavis.edu/~sangaline/github/svganimator/morphing_histograms.png" />
