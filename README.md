@@ -8,8 +8,8 @@ Without the --basic option, svganimator will attempt to find matching elements b
 # gallery
 Here are a couple of simple examples that were generated from SVG images constructed using matplotlib.
 
-![Morphing Histograms](http://nuclear.ucdavis.edu/~sangaline/github/svganimator/morphing_histograms.svg)
-![Animated Time Series](http://nuclear.ucdavis.edu/~sangaline/github/svganimator/animated_time_series.svg)
+<img src="http://nuclear.ucdavis.edu/~sangaline/github/svganimator/morphing_histograms.svg" />
+<img src="http://nuclear.ucdavis.edu/~sangaline/github/svganimator/animated_time_series.svg" />
 
 # usage
 ```
