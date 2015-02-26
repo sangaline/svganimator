@@ -14,6 +14,15 @@ class SvgAnimator(object):
         self.precision = precision
         self.basic = basic
 
+    def _generate_timings(self, number_of_frames):
+        self.total_time = round((self.static+self.transition)*number_of_frames, self.precision)
+        self.transition_times = [0.0]
+        for i in range(number_of_frames):
+            first = (self.static+self.transition)*i + self.static
+            second = first + self.transition
+            self.transition_times.append(round(first/self.total_time, self.precision))
+            self.transition_times.append(round(second/self.total_time, self.precision))
+
     def animate(self, output, inputs, close=True):
         roots = []
         for input in inputs:
@@ -22,6 +31,8 @@ class SvgAnimator(object):
             if close and isinstance(input, IOBase):
                 input.close()
             assert roots[-1].tag.split('}')[1] == 'svg'
+        self._generate_timings(len(roots))
+
         result = ET.Element(roots[0].tag)
 
         tree = ET.ElementTree(result)
